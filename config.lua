@@ -12,6 +12,7 @@ lvim.builtin.nvimtree.active = false
 
 lvim.builtin.which_key.mappings["e"] = {"<Cmd>:NeoTreeFocusToggle<CR>", "Open NeoTree"}
 lvim.builtin.which_key.mappings["E"] = {"<Cmd>:NeoTreeFloatToggle<CR>", "Open NeoTree(Float)"}
+lvim.builtin.which_key.mappings["m"] = {"<Cmd>:MarkdownPreviewToggle<CR>", "Open Markdown Preview"}
 
 local formatters = require("lvim.lsp.null-ls.formatters")
 formatters.setup({
@@ -81,7 +82,7 @@ lvim.plugins = {
     build = "cd app && npm install",
     ft = "markdown",
     config = function()
-      vim.g.mkdp_auto_start = 1
+      vim.g.mkdp_auto_start = 0
     end,
   },
   {
