@@ -11,8 +11,10 @@ vim.g.loaded_netrwFileHandlers = 1
 lvim.builtin.nvimtree.active = false
 
 lvim.builtin.which_key.mappings["e"] = {"<Cmd>:NeoTreeFocusToggle<CR>", "Open NeoTree"}
-lvim.builtin.which_key.mappings["E"] = {"<Cmd>:NeoTreeFloatToggle<CR>", "Open NeoTree(Float)"}
+lvim.builtin.which_key.mappings["E"] = {"<Cmd>:NeoTreeFocus<CR>", "Focus NeoTree"}
+lvim.builtin.which_key.mappings["F"] = {"<Cmd>:NeoTreeFloatToggle<CR>", "Open NeoTree (Float mode)"}
 lvim.builtin.which_key.mappings["m"] = {"<Cmd>:MarkdownPreviewToggle<CR>", "Open Markdown Preview"}
+lvim.builtin.which_key.mappings["i"] = {"gg<CR>=G<CR>", "Auto indent this file (gg/=G)"}
 
 local formatters = require("lvim.lsp.null-ls.formatters")
 formatters.setup({
