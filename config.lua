@@ -16,35 +16,47 @@ lvim.builtin.which_key.mappings["F"] = {"<Cmd>:NeoTreeFloatToggle<CR>", "Open Ne
 lvim.builtin.which_key.mappings["m"] = {"<Cmd>:MarkdownPreviewToggle<CR>", "Open Markdown Preview"}
 lvim.builtin.which_key.mappings["i"] = {"gg<CR>=G<CR>", "Auto indent this file (gg/=G)"}
 
+local linters = require "lvim.lsp.null-ls.linters"
+linters.setup {
+  {
+    command = "eslint_d",
+    filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" }
+  }
+}
+
 local formatters = require("lvim.lsp.null-ls.formatters")
 formatters.setup({
-	{ name = "black" },
-	{ name = "stylua" },
-	{
-		name = "clang_format",
-		args = { "--style=chromium" },
-	},
-	{
-		name = "prettier",
-		---@usage arguments to pass to the formatter
-		-- these cannot contain whitespace
-		-- options such as `--line-width 80` become either `{"--line-width", "80"}` or `{"--line-width=80"}`
-		args = { "--print-width", "100" },
-		---@usage only start in these filetypes, by default it will attach to all filetypes it supports
-		filetypes = { "typescript", "typescriptreact", "javascript" },
-	},
+  { name = "black" },
+  { name = "stylua" },
+  {
+    name = "clang_format",
+    args = { "--style=chromium" },
+  },
+  {
+    name = "eslint_d",
+    filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" }
+  },
+  {
+    name = "prettier",
+    ---@usage arguments to pass to the formatter
+    -- these cannot contain whitespace
+    -- options such as `--line-width 80` become either `{"--line-width", "80"}` or `{"--line-width=80"}`
+    args = { "--print-width", "100" },
+    ---@usage only start in these filetypes, by default it will attach to all filetypes it supports
+    filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+  },
 })
 
 lvim.plugins = {
   { "mg979/vim-visual-multi", branch = "master" },
   {
-		"nvim-neo-tree/neo-tree.nvim",
-   	branch = "v2.x",
-   	dependencies = {
-		  "nvim-lua/plenary.nvim",
-	  	"nvim-tree/nvim-web-devicons",
-  		"MunifTanjim/nui.nvim",
- 		},
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v2.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+    },
     config = function()
       require("neo-tree").setup({
         close_if_last_window = true,
@@ -52,13 +64,13 @@ lvim.plugins = {
       })
     end
   },
-	{
-		"s1n7ax/nvim-window-picker",
-		version = "v1.*",
+  {
+    "s1n7ax/nvim-window-picker",
+    version = "v1.*",
     config = function()
-  	  require("window-picker").setup()
-	  end,
-	},
+      require("window-picker").setup()
+    end,
+  },
   {
     "windwp/nvim-ts-autotag",
     config = function()
@@ -88,7 +100,7 @@ lvim.plugins = {
     end,
   },
   {
-  "turbio/bracey.vim",
+    "turbio/bracey.vim",
     cmd = {"Bracey", "BracyStop", "BraceyReload", "BraceyEval"},
     build = "npm install --prefix server",
   },
