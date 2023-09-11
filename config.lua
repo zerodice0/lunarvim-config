@@ -3,46 +3,90 @@
 -- Forum: https://www.reddit.com/r/lunarvim/
 -- Discord: https://discord.com/invite/Xb9B4Ny
 vim.g.neotree_auto_cd = 0
-
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.loaded_netrwSettings = 1
 vim.g.loaded_netrwFileHandlers = 1
+
 lvim.builtin.nvimtree.active = false
+lvim.builtin.alpha.active = true
+lvim.builtin.alpha.mode = "dashboard"
+lvim.builtin.terminal.active = true
+lvim.builtin.treesitter.highlight.enable = true
+
+lvim.builtin.treesitter.ensure_installed = {
+	"bash",
+	"c",
+	"javascript",
+	"json",
+	"lua",
+	"python",
+	"typescript",
+	"tsx",
+	"css",
+	"rust",
+	"java",
+	"yaml",
+}
+
+lvim.lsp.installer.setup.ensure_installed = {
+	"sumneko_lua",
+	"jsonls",
+	"html",
+	"cssls",
+	"emmet_ls",
+	"tsserver",
+	"intelephense",
+	"tailwindcss",
+}
+
+require("lvim.lsp.manager").setup("emmet_ls")
+require("lvim.lsp.manager").setup("tailwindcss")
+require("lvim.lsp.manager").setup("intelephense")
 
 lvim.builtin.which_key.mappings["e"] = {"<Cmd>:NeoTreeFocusToggle<CR>", "Open NeoTree"}
-lvim.builtin.which_key.mappings["E"] = {"<Cmd>:NeoTreeFloatToggle<CR>", "Open NeoTree(Float)"}
+lvim.builtin.which_key.mappings["E"] = {"<Cmd>:NeoTreeFocus<CR>", "Focus NeoTree"}
+lvim.builtin.which_key.mappings["F"] = {"<Cmd>:NeoTreeFloatToggle<CR>", "Open NeoTree(Float)"}
 lvim.builtin.which_key.mappings["m"] = {"<Cmd>:MarkdownPreviewToggle<CR>", "Open Markdown Preview"}
+lvim.builtin.which_key.mappings["i"] = {"gg<CR>=G<CR>", "auto indent (gg/=G)"}
+
+local linters = require "lvim.lsp.null-ls.linters"
+linters.setup {
+  {
+    command = "eslint_d",
+    filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" }
+  }
+}
 
 local formatters = require("lvim.lsp.null-ls.formatters")
 formatters.setup({
-	{ name = "black" },
-	{ name = "stylua" },
-	{
-		name = "clang_format",
-		args = { "--style=chromium" },
-	},
-	{
-		name = "prettier",
-		---@usage arguments to pass to the formatter
-		-- these cannot contain whitespace
-		-- options such as `--line-width 80` become either `{"--line-width", "80"}` or `{"--line-width=80"}`
-		args = { "--print-width", "100" },
-		---@usage only start in these filetypes, by default it will attach to all filetypes it supports
-		filetypes = { "typescript", "typescriptreact", "javascript" },
-	},
+  { name = "black" },
+  { name = "stylua" },
+  {
+    name = "clang_format",
+    args = { "--style=chromium" },
+  },
+  {
+    name = "prettier",
+    ---@usage arguments to pass to the formatter
+    -- these cannot contain whitespace
+    -- options such as `--line-width 80` become either `{"--line-width", "80"}` or `{"--line-width=80"}`
+    args = { "--print-width", "100" },
+    ---@usage only start in these filetypes, by default it will attach to all filetypes it supports
+    filetypes = { "typescript", "typescriptreact", "javascript" },
+  },
 })
 
 lvim.plugins = {
   { "mg979/vim-visual-multi", branch = "master" },
   {
-		"nvim-neo-tree/neo-tree.nvim",
-   	branch = "v2.x",
-   	dependencies = {
-		  "nvim-lua/plenary.nvim",
-	  	"nvim-tree/nvim-web-devicons",
-  		"MunifTanjim/nui.nvim",
- 		},
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v2.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+    },
     config = function()
       require("neo-tree").setup({
         close_if_last_window = true,
@@ -50,13 +94,13 @@ lvim.plugins = {
       })
     end
   },
-	{
-		"s1n7ax/nvim-window-picker",
-		version = "v1.*",
+  {
+    "s1n7ax/nvim-window-picker",
+    version = "v1.*",
     config = function()
-  	  require("window-picker").setup()
-	  end,
-	},
+      require("window-picker").setup()
+    end,
+  },
   {
     "windwp/nvim-ts-autotag",
     config = function()
@@ -86,8 +130,15 @@ lvim.plugins = {
     end,
   },
   {
-  "turbio/bracey.vim",
+    "turbio/bracey.vim",
     cmd = {"Bracey", "BracyStop", "BraceyReload", "BraceyEval"},
     build = "npm install --prefix server",
+  },
+  {
+    "ahmedkhalf/lsp-rooter.nvim",
+    event = "BufRead",
+    config = function()
+      require("lsp-rooter").setup()
+    end,
   },
 }
