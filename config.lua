@@ -3,18 +3,52 @@
 -- Forum: https://www.reddit.com/r/lunarvim/
 -- Discord: https://discord.com/invite/Xb9B4Ny
 vim.g.neotree_auto_cd = 0
-
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.loaded_netrwSettings = 1
 vim.g.loaded_netrwFileHandlers = 1
+
 lvim.builtin.nvimtree.active = false
+lvim.builtin.alpha.active = true
+lvim.builtin.alpha.mode = "dashboard"
+lvim.builtin.terminal.active = true
+lvim.builtin.treesitter.highlight.enable = true
+
+lvim.builtin.treesitter.ensure_installed = {
+	"bash",
+	"c",
+	"javascript",
+	"json",
+	"lua",
+	"python",
+	"typescript",
+	"tsx",
+	"css",
+	"rust",
+	"java",
+	"yaml",
+}
+
+lvim.lsp.installer.setup.ensure_installed = {
+	"sumneko_lua",
+	"jsonls",
+	"html",
+	"cssls",
+	"emmet_ls",
+	"tsserver",
+	"intelephense",
+	"tailwindcss",
+}
+
+require("lvim.lsp.manager").setup("emmet_ls")
+require("lvim.lsp.manager").setup("tailwindcss")
+require("lvim.lsp.manager").setup("intelephense")
 
 lvim.builtin.which_key.mappings["e"] = {"<Cmd>:NeoTreeFocusToggle<CR>", "Open NeoTree"}
 lvim.builtin.which_key.mappings["E"] = {"<Cmd>:NeoTreeFocus<CR>", "Focus NeoTree"}
-lvim.builtin.which_key.mappings["F"] = {"<Cmd>:NeoTreeFloatToggle<CR>", "Open NeoTree (Float mode)"}
+lvim.builtin.which_key.mappings["F"] = {"<Cmd>:NeoTreeFloatToggle<CR>", "Open NeoTree(Float mode)"}
 lvim.builtin.which_key.mappings["m"] = {"<Cmd>:MarkdownPreviewToggle<CR>", "Open Markdown Preview"}
-lvim.builtin.which_key.mappings["i"] = {"gg<CR>=G<CR>", "Auto indent this file (gg/=G)"}
+lvim.builtin.which_key.mappings["i"] = {"gg<CR>=G<CR>", "auto indent (gg/=G)"}
 
 local linters = require "lvim.lsp.null-ls.linters"
 linters.setup {
@@ -103,5 +137,12 @@ lvim.plugins = {
     "turbio/bracey.vim",
     cmd = {"Bracey", "BracyStop", "BraceyReload", "BraceyEval"},
     build = "npm install --prefix server",
+  },
+  {
+    "ahmedkhalf/lsp-rooter.nvim",
+    event = "BufRead",
+    config = function()
+      require("lsp-rooter").setup()
+    end,
   },
 }
