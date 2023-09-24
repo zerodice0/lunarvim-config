@@ -50,8 +50,8 @@ lvim.builtin.which_key.mappings["F"] = {"<Cmd>:NeoTreeFloatToggle<CR>", "Open Ne
 lvim.builtin.which_key.mappings["m"] = {"<Cmd>:MarkdownPreviewToggle<CR>", "Open Markdown Preview"}
 lvim.builtin.which_key.mappings["i"] = {"gg<CR>=G<CR>", "auto indent (gg/=G)"}
 
-lvim.keys.normal_mode["<C-k>"] = {"<Cmd>:m .-2<CR>=="}
-lvim.keys.normal_mode["<C-j>"] = {"<Cmd>:m .+1<CR>=="}
+lvim.keys.normal_mode["<S-k>"] = {"<Cmd>:m .-2<CR>=="}
+lvim.keys.normal_mode["<S-j>"] = {"<Cmd>:m .+1<CR>=="}
 
 local linters = require "lvim.lsp.null-ls.linters"
 linters.setup {
