@@ -44,14 +44,21 @@ require("lvim.lsp.manager").setup("emmet_ls")
 require("lvim.lsp.manager").setup("tailwindcss")
 require("lvim.lsp.manager").setup("intelephense")
 
-lvim.builtin.which_key.mappings["e"] = {"<Cmd>:NeoTreeFocusToggle<CR>", "Open NeoTree"}
-lvim.builtin.which_key.mappings["E"] = {"<Cmd>:NeoTreeFocus<CR>", "Focus NeoTree"}
-lvim.builtin.which_key.mappings["F"] = {"<Cmd>:NeoTreeFloatToggle<CR>", "Open NeoTree(Float mode)"}
 lvim.builtin.which_key.mappings["m"] = {"<Cmd>:MarkdownPreviewToggle<CR>", "Open Markdown Preview"}
-lvim.builtin.which_key.mappings["i"] = {"gg<CR>=G<CR>", "auto indent (gg/=G)"}
 
-lvim.keys.normal_mode["<S-k>"] = {"<Cmd>:m .-2<CR>=="}
-lvim.keys.normal_mode["<S-j>"] = {"<Cmd>:m .+1<CR>=="}
+lvim.builtin.which_key.mappings["e"] = {
+  name = "NeoTree",
+  e = {"<Cmd>:NeoTreeFocusToggle<CR>", "Open NeoTree"},
+  E = {"<Cmd>:NeoTreeFocus<CR>", "Focus NeoTree"},
+  F = {"<Cmd>:NeoTreeFloatToggle<CR>", "Open NeoTree(Float mode)"}
+}
+
+lvim.builtin.which_key.mappings["a"] = {
+  name = "Align",
+  i = {"gg<CR>=G<CR>", "auto indent (gg/=G)"},
+  f = {"<Cmd>:m .-2<CR>==", "move line to up"},
+  v = {"<Cmd>:m .+1<CR>==", "move line to down"}
+}
 
 local linters = require "lvim.lsp.null-ls.linters"
 linters.setup {
